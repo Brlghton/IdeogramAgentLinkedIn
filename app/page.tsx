@@ -206,7 +206,7 @@ function Lightbox({
         <img
           src={url}
           alt="Generated visual"
-          className="block w-full h-full object-contain"
+          className="block w-full"
         />
 
         <ImageOverlay headline={headline} bullets={bullets} paragraph={paragraph} logos={logos} textPosition={textPosition} size="lg" />
