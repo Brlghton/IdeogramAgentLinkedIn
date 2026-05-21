@@ -120,40 +120,40 @@ function ImageOverlay({
 
   return (
     <div
-      className={`absolute flex flex-col ${size === 'sm' ? smPos : lgPos} ${size === 'sm' ? 'px-3 py-2' : 'px-4 py-4 md:px-10 md:py-10'}`}
+      className={`absolute flex flex-col ${size === 'sm' ? smPos : lgPos} ${size === 'sm' ? 'px-3 py-2' : 'px-3 py-2 md:px-10 md:py-10'}`}
       style={{ background: size === 'sm' ? smGradient : lgGradient }}
     >
       {logos && logos.length > 0 && size === 'lg' && (
-        <div className="flex gap-2 mb-2 md:gap-3 md:mb-5">
+        <div className="flex gap-1.5 mb-1.5 md:gap-3 md:mb-5">
           {logos.map((key) => {
             const logo = LOGO_MAP[key];
             if (!logo) return null;
             return (
-              <div key={key} className={`rounded-xl px-2 py-1 md:px-3 md:py-2 flex items-center justify-center shadow-lg overflow-hidden ${logo.dark ? 'bg-transparent border border-white/30' : 'bg-white'}`}>
+              <div key={key} className={`rounded-lg px-1.5 py-1 md:rounded-xl md:px-3 md:py-2 flex items-center justify-center shadow-lg overflow-hidden ${logo.dark ? 'bg-transparent border border-white/30' : 'bg-white'}`}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={logo.src} alt={logo.label} className="h-8 w-auto max-w-[80px] md:h-16 md:max-w-[140px] object-contain" />
+                <img src={logo.src} alt={logo.label} className="h-5 w-auto max-w-[60px] md:h-16 md:max-w-[140px] object-contain" />
               </div>
             );
           })}
         </div>
       )}
       {headline && (
-        <p className={`text-white font-extrabold leading-tight tracking-tight drop-shadow-lg ${size === 'sm' ? 'text-[11px] mb-1' : 'text-xl mb-2 md:text-4xl md:mb-5'}`}>
+        <p className={`text-white font-extrabold leading-tight tracking-tight drop-shadow-lg ${size === 'sm' ? 'text-[11px] mb-1' : 'text-[13px] mb-1 md:text-4xl md:mb-5'}`}>
           {headline}
         </p>
       )}
       {bullets && bullets.length > 0 && (
-        <ul className={size === 'sm' ? 'space-y-px' : 'space-y-1 md:space-y-3'}>
+        <ul className={size === 'sm' ? 'space-y-px' : 'space-y-px md:space-y-3'}>
           {bullets.map((b, i) => (
-            <li key={i} className={`text-gray-100 flex drop-shadow ${size === 'sm' ? 'text-[9px] gap-1' : 'text-sm gap-2 md:text-xl md:gap-3'}`}>
-              <span className={`text-white font-bold shrink-0 ${size === 'sm' ? '' : 'mt-0.5'}`}>•</span>
+            <li key={i} className={`text-gray-100 flex drop-shadow ${size === 'sm' ? 'text-[9px] gap-1' : 'text-[11px] gap-1 md:text-xl md:gap-3'}`}>
+              <span className="text-white font-bold shrink-0">•</span>
               <span>{b}</span>
             </li>
           ))}
         </ul>
       )}
       {(!bullets || bullets.length === 0) && paragraph && (
-        <p className={`text-gray-100 drop-shadow ${size === 'sm' ? 'text-[9px] leading-snug' : 'text-sm leading-relaxed md:text-xl'}`}>
+        <p className={`text-gray-100 drop-shadow ${size === 'sm' ? 'text-[9px] leading-snug' : 'text-[11px] leading-snug md:text-xl md:leading-relaxed'}`}>
           {paragraph}
         </p>
       )}
