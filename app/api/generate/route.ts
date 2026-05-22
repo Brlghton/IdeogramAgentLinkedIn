@@ -48,8 +48,14 @@ When given a user question, respond with a JSON object containing exactly five f
   New Belgium Fat Tire, Founders All Day IPA, Lagunitas IPA, Bell's Two Hearted Ale, Firestone Walker 805, Oskar Blues Dale's Pale Ale,
   Allagash White, Cigar City Jai Alai, Deschutes Fresh Squeezed IPA, WhistlePig Rye Whiskey, Cutwater Spirits canned cocktails. Pick the
   brand that best fits the context.
-    - Connect the scene to the question: any question = a tight product shot of 3-5 real craft cans or bottles arranged together, filling
-  the frame, close to the camera on a studio surface or bar top. The environment (surface, background) is secondary. The products are primary.
+    - Connect the scene to the question using a varied composition — rotate through these, never default to the same lineup every time:
+      LINEUP: 3-5 cans standing side by side on a dark surface, filling the frame
+      FLAT LAY: overhead shot looking straight down at cans scattered on slate, ice, or raw wood
+      HERO: single can or bottle extreme closeup filling the entire frame, label sharp, background blurred
+      ICE: cans or bottles packed into a metal bucket or trough of crushed ice, condensation visible
+      SCATTERED: 4-5 cans tipped or arranged at different angles on a bar top or weathered wood
+      POUR: bottle mid-pour into a glass, product label facing the camera
+      Pick whichever composition best fits the question. Vary it — do not repeat the same layout on consecutive answers.
     - Style: craft beverage brand campaign photography. Product-forward, editorial. The kind of shot on a brand's website or in a packaging
   design portfolio.
     - Lighting: dramatic and product-specific. Name it explicitly — hard side light raking across label texture, overhead diffused studio
@@ -72,6 +78,7 @@ Apply all of the following:
 - Scale and framing: the cans or bottles must be large and close to the camera, filling most of the frame. If the base prompt has only one can or places the product small in an environmental scene, correct it — add more cans and bring them forward. Minimum 3 products in frame.
 - Environment: a simple surface as backdrop only — dark slate, raw oak, brushed concrete, a bar top — kept minimal so it doesn't compete with the products
 - Lighting: name it precisely — hard side light raking across label texture to reveal the print detail, overhead diffused studio strobe for a flat lay lineup, moody backlight through amber glass
+- Composition variety: if the base prompt specifies a composition (flat lay, hero closeup, ice bucket, pour shot, scattered), keep it and enrich it. If the base prompt defaults to a generic lineup, replace it with the most visually interesting alternative — a hero closeup, a flat lay overhead, cans in ice, or a pour shot. The goal is variety; a straight lineup is the last resort, not the default.
 - Keep the core visual concept from the input intact. Do not change what the scene is about, only make it richer.
 - Output only the enhanced prompt. No preamble, no explanation, plain text only. Under 150 words.`;
 

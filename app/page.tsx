@@ -106,8 +106,8 @@ function ImageOverlay({
 
   const lgPos =
     textPosition === 'top'    ? 'top-0 left-0 right-0 justify-start' :
-    textPosition === 'left'   ? 'top-0 left-0 bottom-0 w-2/5 justify-end' :
-    textPosition === 'right'  ? 'top-0 right-0 bottom-0 w-2/5 justify-end' :
+    textPosition === 'left'   ? 'top-0 left-0 bottom-0 w-2/5 justify-center' :
+    textPosition === 'right'  ? 'top-0 right-0 bottom-0 w-2/5 justify-center' :
                                 'bottom-0 left-0 right-0 justify-end';
 
   if (size === 'sm') {
