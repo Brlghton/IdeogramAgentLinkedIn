@@ -64,7 +64,7 @@ const GTM_ENHANCE_PROMPT = `You are a craft beverage brand campaign photographer
 
 Apply all of the following:
 - Camera realism: specify focal length (50mm, 85mm, 100mm macro), aperture (f/1.8, f/2.8), and depth of field — tighter apertures (f/2.8-f/4) keep the label sharp while softening the background
-- Brand specificity: the base prompt will name a real craft brand. Lean into its known visual character (Stone's gothic illustration style, Sierra Nevada's green and gold mountain logo, New Belgium's bicycle icon, Founders' dark premium aesthetic). Specify only the brand name and at most one product name — both large and isolated. CRITICAL: no decorative bands, no horizontal text strips, no info panels, no bottom strips on the can. Clean label design only — large text with space around it, nothing else. Any band or strip of secondary text will render as garbled noise.
+- Brand specificity: the base prompt will name a real craft brand. Lean into its known visual character (Stone's gothic illustration style, Sierra Nevada's green and gold mountain logo, New Belgium's bicycle icon, Founders' dark premium aesthetic). Specify only the brand name and at most one product name — both large and isolated. CRITICAL: no decorative bands, no horizontal text strips, no info panels, no bottom strips on the can. Clean label design only — large text with ample space around it, nothing else. Any band or strip of secondary text will render as garbled noise. No small text anywhere on the label at any size — one or two words maximum, rendered as large as possible.
 - Override rule: if the base prompt describes a boardroom, office, conference table, cityscape, or any non-beverage scene, ignore it entirely and replace it with a tight craft beverage product shot. The output is always cans or bottles, never architecture or interiors.
 - Scale and framing: the cans or bottles must be large and close to the camera, filling most of the frame. If the base prompt has only one can or places the product small in an environmental scene, correct it — add more cans and bring them forward. Minimum 3 products in frame.
 - Environment: a simple surface as backdrop only — dark slate, raw oak, brushed concrete, a bar top — kept minimal so it doesn't compete with the products
@@ -135,9 +135,10 @@ export async function POST(request: Request) {
         try {
           const cleaned = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
           const parsed = JSON.parse(cleaned);
-          headline = parsed.headline?.trim() ?? '';
-          bullets = (parsed.bullets ?? []).map((b: string) => b.trim()).filter(Boolean);
-          paragraph = parsed.paragraph?.trim() ?? '';
+          const stripEmDash = (s: string) => s.replace(/—/g, '-');
+          headline = stripEmDash(parsed.headline?.trim() ?? '');
+          bullets = (parsed.bullets ?? []).map((b: string) => stripEmDash(b.trim())).filter(Boolean);
+          paragraph = stripEmDash(parsed.paragraph?.trim() ?? '');
           imagePrompt = parsed.imagePrompt?.trim() ?? '';
           if (['bottom', 'top', 'left', 'right'].includes(parsed.textPosition)) {
             textPosition = parsed.textPosition;
@@ -187,7 +188,7 @@ export async function POST(request: Request) {
             image_request: {
               prompt: enhancedImagePrompt,
               negative_prompt:
-                'small text, fine print, secondary label text, ingredient list, information band, decorative text strip, multiple lines of text on label, fine print on bottle, side panel text, legal copy, small font, tiny writing, illegible text, garbled text, background signage, chalkboard, menu board, price tag, wall text, poster text, banner text, watermark, people, humans, faces, figures, portraits',
+                'small text, fine print, secondary label text, ingredient list, information band, decorative text strip, multiple lines of text on label, fine print on bottle, side panel text, legal copy, small font, tiny writing, micro text, tiny font, multiple text sizes, crowded label, cluttered label, text heavy label, busy label, dense text on can, small print anywhere, illegible text, garbled text, background signage, chalkboard, menu board, price tag, wall text, poster text, banner text, watermark, people, humans, faces, figures, portraits',
               model: 'V_2',
               aspect_ratio: 'ASPECT_16_9',
               magic_prompt_option: 'OFF',
