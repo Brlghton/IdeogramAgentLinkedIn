@@ -249,9 +249,9 @@ function Lightbox({
 const WELCOME_MESSAGE = "This agent has Brighton's full go-to-market strategy for Ideogram. Ask away!";
 
 const CHIPS = [
-  { label: 'Can I get the executive summary?', prompt: 'Executive Summary' },
-  { label: 'What is the vertical?', prompt: 'What is the vertical?' },
-  { label: 'Why does Ideogram fit?', prompt: 'Why does Ideogram fit?' },
+  { label: 'Give me the executive summary.', prompt: 'Give me the executive summary.' },
+  { label: "What's the target vertical?", prompt: "What's the target vertical?" },
+  { label: 'Why is Ideogram the right fit?', prompt: 'Why is Ideogram the right fit?' },
 ];
 
 export default function Home() {
