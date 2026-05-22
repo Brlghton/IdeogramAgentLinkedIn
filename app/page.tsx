@@ -11,18 +11,12 @@ type Message = {
   headline?: string;
   bullets?: string[];
   paragraph?: string;
-  logos?: string[];
   textPosition?: TextPosition;
   loadingPhase?: string;
   loading: boolean;
   error?: string;
 };
 
-const LOGO_MAP: Record<string, { src: string; label: string; dark?: boolean }> = {
-  enbridge: { src: '/logo-header-gray.png', label: 'Enbridge' },
-  n8n:      { src: '/images.png',           label: 'n8n' },
-  lcg:      { src: '/images.jpg',           label: 'Laurier Consulting Group' },
-};
 
 function IdeogramLogoSmall() {
   return (
@@ -91,14 +85,12 @@ function ImageOverlay({
   headline,
   bullets,
   paragraph,
-  logos,
   textPosition = 'bottom',
   size = 'lg',
 }: {
   headline?: string;
   bullets?: string[];
   paragraph?: string;
-  logos?: string[];
   textPosition?: TextPosition;
   size?: 'sm' | 'lg';
 }) {
@@ -179,20 +171,6 @@ function ImageOverlay({
         className={`hidden md:flex absolute flex-col ${lgPos} px-10 py-10`}
         style={{ background: lgGradient }}
       >
-        {logos && logos.length > 0 && (
-          <div className="flex gap-3 mb-5">
-            {logos.map((key) => {
-              const logo = LOGO_MAP[key];
-              if (!logo) return null;
-              return (
-                <div key={key} className={`rounded-xl px-3 py-2 flex items-center justify-center shadow-lg overflow-hidden ${logo.dark ? 'bg-transparent border border-white/30' : 'bg-white'}`}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={logo.src} alt={logo.label} className="h-16 w-auto max-w-[140px] object-contain" />
-                </div>
-              );
-            })}
-          </div>
-        )}
         {headline && (
           <p className="text-white font-extrabold leading-tight tracking-tight drop-shadow-lg text-4xl mb-5">
             {headline}
@@ -221,7 +199,6 @@ function Lightbox({
   headline,
   bullets,
   paragraph,
-  logos,
   textPosition = 'bottom',
   onClose,
 }: {
@@ -229,7 +206,6 @@ function Lightbox({
   headline?: string;
   bullets?: string[];
   paragraph?: string;
-  logos?: string[];
   textPosition?: TextPosition;
   onClose: () => void;
 }) {
@@ -264,25 +240,25 @@ function Lightbox({
           className="block w-full"
         />
 
-        <ImageOverlay headline={headline} bullets={bullets} paragraph={paragraph} logos={logos} textPosition={textPosition} size="lg" />
+        <ImageOverlay headline={headline} bullets={bullets} paragraph={paragraph} textPosition={textPosition} size="lg" />
       </div>
     </div>
   );
 }
 
-const WELCOME_MESSAGE = "This Agent Has Brighton's Full Go-To-Market Strategy and personal overview. Ask away!";
+const WELCOME_MESSAGE = "This agent has Brighton's full go-to-market strategy for Ideogram. Ask away!";
 
 const CHIPS = [
   { label: 'Can I get the executive summary?', prompt: 'Executive Summary' },
-  { label: 'Can you tell me a bit about Brighton?', prompt: 'About Brighton' },
-  { label: 'What are the key insights?', prompt: 'Key Insights' },
+  { label: 'What is the vertical?', prompt: 'What is the vertical?' },
+  { label: 'Why does Ideogram fit?', prompt: 'Why does Ideogram fit?' },
 ];
 
 export default function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [lightbox, setLightbox] = useState<{ url: string; headline?: string; bullets?: string[]; paragraph?: string; logos?: string[]; textPosition?: TextPosition } | null>(null);
+  const [lightbox, setLightbox] = useState<{ url: string; headline?: string; bullets?: string[]; paragraph?: string; textPosition?: TextPosition } | null>(null);
   const [typedMessage, setTypedMessage] = useState('');
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -306,7 +282,7 @@ export default function Home() {
   useEffect(() => {
     const last = messages[messages.length - 1];
     if (last?.imageUrl && !last.loading) {
-      setLightbox({ url: last.imageUrl, headline: last.headline, bullets: last.bullets, paragraph: last.paragraph, logos: last.logos, textPosition: last.textPosition });
+      setLightbox({ url: last.imageUrl, headline: last.headline, bullets: last.bullets, paragraph: last.paragraph, textPosition: last.textPosition });
     }
   }, [messages]);
 
@@ -360,7 +336,6 @@ export default function Home() {
                       headline: event.headline,
                       bullets: event.bullets,
                       paragraph: event.paragraph,
-                      logos: event.logos,
                       textPosition: event.textPosition,
                       loading: false,
                       loadingPhase: undefined,
@@ -386,7 +361,7 @@ export default function Home() {
 
   return (
     <>
-      {lightbox && <Lightbox url={lightbox.url} headline={lightbox.headline} bullets={lightbox.bullets} paragraph={lightbox.paragraph} logos={lightbox.logos} textPosition={lightbox.textPosition} onClose={() => setLightbox(null)} />}
+      {lightbox && <Lightbox url={lightbox.url} headline={lightbox.headline} bullets={lightbox.bullets} paragraph={lightbox.paragraph} textPosition={lightbox.textPosition} onClose={() => setLightbox(null)} />}
 
       <div className="min-h-screen bg-gray-800 flex items-center justify-center p-4">
         <div
@@ -456,11 +431,11 @@ export default function Home() {
                   ) : msg.imageUrl ? (
                     <div
                       className="relative w-full rounded-2xl overflow-hidden border border-gray-200 shadow-md cursor-zoom-in"
-                      onClick={() => setLightbox({ url: msg.imageUrl!, headline: msg.headline, bullets: msg.bullets, paragraph: msg.paragraph, logos: msg.logos, textPosition: msg.textPosition })}
+                      onClick={() => setLightbox({ url: msg.imageUrl!, headline: msg.headline, bullets: msg.bullets, paragraph: msg.paragraph, textPosition: msg.textPosition })}
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={msg.imageUrl} alt={msg.question} className="w-full block" />
-                      <ImageOverlay headline={msg.headline} bullets={msg.bullets} paragraph={msg.paragraph} logos={msg.logos} textPosition={msg.textPosition} size="sm" />
+                      <ImageOverlay headline={msg.headline} bullets={msg.bullets} paragraph={msg.paragraph} textPosition={msg.textPosition} size="sm" />
                     </div>
                   ) : null}
                 </div>

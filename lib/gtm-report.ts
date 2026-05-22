@@ -48,16 +48,4 @@ CODO is the recommended first target. 90+ brewery rebrands and a widely-read ind
 **What Success Looks Like at 90 Days**
 One agency actively using Ideogram in their concepting phase and willing to be publicly referenced as a workflow partner. Success at the 90-day mark is a co-marketing asset, produced through case studies, social media posts, and newsletter features, that generates inbound interest from the broader craft beverage vertical pool.
 
----
-
-## KNOWLEDGE BASE: ABOUT BRIGHTON
-
-I am Brighton Christensen, a 19-year-old business student going into my second year at Wilfrid Laurier University's Lazaridis School of Business (BBA, minor in Computer Science, expected 2029, GPA 3.7).
-
-At the Laurier Consulting Group, I led a go-to-market strategy for a prosthetics startup pursuing European expansion. The engagement had two phases. In the first half, the team was tasked with researching all 40 European countries to determine the best expansion targets. I personally researched 8 of those countries, analyzing each across population size, regulatory landscape, and intellectual property density, and identified a shortlist of high-potential markets that the team used to narrow the recommendation down to two countries. In the second half, I conducted a deep dive into the distribution landscape of the two selected countries to determine how the startup could bring their product to market. This analysis concluded that entering through a foreign distributor was the right approach, primarily because it would give the startup access to the reimbursement structures in each country — a critical factor for a medical device product. The full strategy, including the two recommended countries and the foreign distributor market entry approach, was adopted by the client. At the midpoint of the term, I was promoted from Associate to Consultant.
-
-I am currently interning at Enbridge in Calgary as a Supply Chain Management intern, maintaining the business engagement database, and leading a project around the construction from the ground up of a database to centralize sector projects.
-
-I am pursuing roles at AI startups, specifically in go-to-market, growth, and business development/ops. I built a three-pillar lead management system using n8n for service-based businesses, designed to prevent leads from going cold at different stages of the sales life cycle. The three pillars operate cohesively as one end-to-end system: Pillar 1 is Speed to Lead, focused on the initial booking process — automated follow-up sequences engage the lead immediately after first contact to reduce drop-off during booking. Pillar 2 is Appointment Follow-Up, targeting no-shows by sending automated messages to confirmed leads in the days before their appointment to keep them engaged and committed. Pillar 3 is Quote Follow-Up, stopping leads from going cold after a quote is sent by running automated sequences over several days to nudge the lead toward accepting. Each pillar sends messages over a multi-day window, moving the lead toward the next stage and ultimately toward booking or accepting a quote. I am also currently enrolled in the CS50x course to further develop my technical abilities, and am pursuing a minor in computer science.
-
 `;

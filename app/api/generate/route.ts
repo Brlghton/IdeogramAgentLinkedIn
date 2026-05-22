@@ -59,49 +59,6 @@ When given a user question, respond with a JSON object containing exactly five f
 
   Output only valid JSON. No markdown, no code fences, nothing outside the JSON object. Do not use em dashes in any text field. Use commas, colons, or plain hyphens instead.`;
 
-  const BRIGHTON_SYSTEM_PROMPT = `You are an Ideogram prompt engineer creating visuals about a person's professional and academic background.
-  The visuals must feel personal, tech-forward, and ambitious.
-
-  When given a user question about Brighton, respond with a JSON object containing exactly six fields:
-
-  1. "headline": A 5-8 word title built from specific facts only — a role, a credential, an outcome, a number, an institution. No hype, no
-  motivational language, no adjectives like "ambitious" or "driven", no phrases like "operating at full speed" or "building the future".
-  Good: "GTM Analyst, LCG Consultant, Enbridge Intern" / "Prosthetics GTM Lead, 8 Countries Analyzed" / "BBA, CS Minor, 3.7 GPA, Laurier".
-  Bad: "GTM Report Author" / "Nineteen and Already Operating at Full Speed" / "Young Builder Making His Mark". Never use "author" or
-  "report author". Lead with what he has actually done or where he actually is.
-  2. "bullets": An array of 2-3 punchy sentences (10-20 words each) using specific facts about Brighton from the knowledge base. These appear
-  as text overlaid on the image. Set to an empty array [] if using paragraph instead.
-  3. "paragraph": A short 2-3 sentence explanation (30-60 words total) for answers where a flowing narrative is more natural than a list. Set
-  to an empty string "" if using bullets instead.
-
-  Choose EITHER bullets OR paragraph — never both. Use bullets when the answer covers multiple distinct facts about Brighton (roles,
-  credentials, accomplishments). Use paragraph when the question asks who he is, what he does, or why something matters — single-concept
-  answers where a list would feel forced.
-
-  4. "logos": An array of logo identifiers that are relevant to the answer. Choose only from: "enbridge", "n8n", "lcg". Include only the ones
-  directly relevant to what the question is about. Can be empty array if none apply.
-  5. "textPosition": Where the text overlay will be placed on the image. Choose ONE of: "bottom", "top", "left", "right". Base your choice on where the natural negative space falls for the scene you are describing — dark, low-detail areas with no focal subject. Bottom suits wide shots with a strong subject in the upper frame. Top suits shots where the subject sits low. Left or right suits scenes with a clear open side — a desk shot with open wall space, a campus shot with open sky on one side. Your imagePrompt must place its negative space in whichever position you choose here.
-
-  6. "imagePrompt": A purely atmospheric, text-free visual prompt for Ideogram. Rules:
-    - CRITICAL: No visual element that would naturally contain text. No screens with readable text, no whiteboards with writing, no notebooks,
-   no signage, no posters, no logos in the scene. No people, no humans, no faces, no figures.
-    - The visual must reflect Brighton's world: a university campus at golden hour, a clean modern laptop on a minimal desk, a dimly lit
-  startup office with ambient light, abstract flowing data or network node visuals, a coworking space with warm ambient energy, a glass-walled
-   boardroom with city views, cool blue light from a monitor illuminating a desk setup.
-    - Connect the scene directly to the question using real specific locations:
-      school/LCG = Wilfrid Laurier University campus in Waterloo, Ontario — the Lazaridis School of Business exterior, the campus quad at
-      golden hour, library interior with tall windows, collaborative student workspace;
-      Enbridge/internship = downtown Calgary, Alberta — the Bow Tower glass facade, the Calgary skyline with the Rockies visible in the
-      distance, steel and glass office environment, early morning light over the city;
-      AI/tech/n8n = abstract flowing network node visuals, cool blue monitor glow, minimal dark desk setup;
-      general/consulting = glass-walled boardroom with city views.
-    - Style: cinematic, aspirational, editorial. Profile feature in a business publication aesthetic.
-    - Lighting: clean and directional. Name it explicitly — morning light through a window, warm ambient office glow, cool blue tech ambiance.
-    - Color: deep navy, electric blue, warm white, slate, or muted gold. Pick 2-3.
-    - Composition: deliberately place the negative space in whichever area matches your textPosition choice — dark, uncluttered, low-detail — so the text overlay sits naturally within the image rather than on top of it.
-    - Under 150 words.
-
-  Output only valid JSON. No markdown, no code fences, nothing outside the JSON object. Do not use em dashes in any text field. Use commas, colons, or plain hyphens instead.`;
 
 const GTM_ENHANCE_PROMPT = `You are a craft beverage brand campaign photographer and Ideogram prompt engineer. You will receive a base image prompt concept featuring craft beer cans, spirit bottles, or beverage packaging with brand label text rendered on them. Your job is to rewrite it as a rich, detailed, photorealistic Ideogram prompt.
 
@@ -115,50 +72,6 @@ Apply all of the following:
 - Keep the core visual concept from the input intact. Do not change what the scene is about, only make it richer.
 - Output only the enhanced prompt. No preamble, no explanation, plain text only. Under 150 words.`;
 
-const BRIGHTON_ENHANCE_PROMPT = `You are an editorial portrait photographer and Ideogram prompt engineer. You will receive a base image prompt concept about Brighton Christensen, a 19-year-old business student, consultant, and AI builder. Your job is to rewrite it as a rich, detailed, photorealistic Ideogram prompt.
-
-Apply all of the following:
-- Story focus: read the base prompt carefully and make the visual directly express what it is about. The scene must feel like it belongs to that specific chapter of Brighton's life, not a generic professional setting.
-- Context-sensitive scene building — always use the specific real location, not a generic stand-in:
-  - School or LCG consulting work → Wilfrid Laurier University, Waterloo, Ontario. Lazaridis School of Business exterior, the campus quad,
-    library interior with tall natural light windows, collaborative student workspace. Name the location explicitly in the prompt.
-  - Enbridge internship → Downtown Calgary, Alberta. The Bow Tower glass facade (Enbridge HQ), the Calgary skyline with the Canadian
-    Rockies visible in the background, steel and glass office environment, early morning light over the city. Name Calgary explicitly.
-  - Tech, AI, or n8n work → abstract flowing network node visuals, cool blue monitor glow on a minimal dark desk, soft ambient tech light
-- Aspirational editorial (light touch): frame it as a profile shoot for a business publication — clean directional lighting, intentional negative space, ambitious but grounded and real
-- Keep the core visual concept from the input intact. Do not change what the scene is about, only make it richer.
-- Output only the enhanced prompt. No preamble, no explanation, plain text only. Under 150 words.`;
-
-function isAboutBrighton(question: string): boolean {
-  const q = question.toLowerCase();
-
-  // GTM report content always wins — route to GTM regardless of anything else
-  const gtmOverrides = [
-    'gtm report', 'gtm strategy', 'go-to-market report', 'craft beverage',
-    'ideogram gtm', 'executive summary', 'key insights', 'agency-first',
-    'codo', 'blindtiger', 'atlas branding', 'beverage branding', 'the report',
-    'your report', 'his report', "brighton's report", "brighton's gtm",
-  ];
-  if (gtmOverrides.some((kw) => q.includes(kw))) return false;
-
-  // If Brighton's name appears and it's not a GTM override, always treat as personal
-  if (q.includes('brighton')) return true;
-
-  // Personal keywords for when his name isn't mentioned
-  const brightonKeywords = [
-    'who are you', 'who is he', 'who built', 'he made', 'he built', 'he created',
-    'about you', 'about him',
-    'your background', 'his background', 'your experience', 'his experience',
-    'your education', 'his education', 'his time at school', 'his time at',
-    'laurier', 'enbridge', 'lcg', 'consulting group',
-    'prosthetic', 'second year', 'student', 'intern',
-    'wilfrid', 'lazaridis', 'gpa', 'bba',
-    'n8n', 'lead management', 'speed to lead', 'quote follow', 'appointment follow',
-    'ai system', 'automation', 'three pillar', 'pillar',
-    'cs50', 'computer science', 'calgary', 'waterloo', 'consulting club',
-  ];
-  return brightonKeywords.some((kw) => q.includes(kw));
-}
 
 export async function POST(request: Request) {
   if (ratelimit) {
@@ -187,9 +100,7 @@ export async function POST(request: Request) {
           return;
         }
 
-        const aboutBrighton = isAboutBrighton(question);
-        const systemPrompt = aboutBrighton ? BRIGHTON_SYSTEM_PROMPT : GTM_SYSTEM_PROMPT;
-        console.log(`\n--- ROUTING: ${aboutBrighton ? 'BRIGHTON' : 'GTM'} ---\n`);
+        const systemPrompt = GTM_SYSTEM_PROMPT;
 
         emit({ type: 'phase', message: 'Claude - analyzing your question' });
 
@@ -219,7 +130,6 @@ export async function POST(request: Request) {
         let headline = '';
         let bullets: string[] = [];
         let paragraph = '';
-        let logos: string[] = [];
         let textPosition: 'bottom' | 'top' | 'left' | 'right' = 'bottom';
 
         try {
@@ -229,9 +139,6 @@ export async function POST(request: Request) {
           bullets = (parsed.bullets ?? []).map((b: string) => b.trim()).filter(Boolean);
           paragraph = parsed.paragraph?.trim() ?? '';
           imagePrompt = parsed.imagePrompt?.trim() ?? '';
-          logos = (parsed.logos ?? []).filter((l: string) =>
-            ['enbridge', 'n8n', 'lcg'].includes(l)
-          );
           if (['bottom', 'top', 'left', 'right'].includes(parsed.textPosition)) {
             textPosition = parsed.textPosition;
           }
@@ -248,7 +155,7 @@ export async function POST(request: Request) {
 
         emit({ type: 'phase', message: 'Claude - enhancing image prompt' });
 
-        const enhancePrompt = aboutBrighton ? BRIGHTON_ENHANCE_PROMPT : GTM_ENHANCE_PROMPT;
+        const enhancePrompt = GTM_ENHANCE_PROMPT;
 
         const enhanceResponse = await anthropic.messages.create({
           model: 'claude-sonnet-4-6',
@@ -305,7 +212,7 @@ export async function POST(request: Request) {
           return;
         }
 
-        emit({ type: 'complete', imageUrl, headline, bullets, paragraph, logos, textPosition });
+        emit({ type: 'complete', imageUrl, headline, bullets, paragraph, textPosition });
       } catch (err) {
         console.error('Generate route error:', err);
         emit({ type: 'error', error: 'Internal server error' });
