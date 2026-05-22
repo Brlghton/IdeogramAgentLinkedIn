@@ -35,6 +35,8 @@ When given a user question, respond with a JSON object containing exactly five f
     - CRITICAL: No decorative bands, no horizontal stripes with text, no information panels, no bottom strips, no ingredient lines, no
   secondary copy strips of any kind on the can or bottle. These always render as garbled hieroglyphics. The label design must be clean —
   brand name and product name only, as large isolated elements with negative space around them, nothing else.
+    - CRITICAL: The bottom of every can and bottle must be completely clean — no text, no fine print, no ABV percentage, no volume, no
+  barcode, no legal copy, no ingredients, no nutrition facts. Treat the lower third of every can as a text-free zone.
     - BLOCK: background environmental text only. No chalkboards, no menus, no wall signage, no posters, no price tags, no banners. No people,
   no humans, no faces, no figures.
     - CRITICAL: The image is ALWAYS a craft beverage product shot. No boardrooms, no conference tables, no offices, no cityscapes, no
@@ -65,6 +67,7 @@ const GTM_ENHANCE_PROMPT = `You are a craft beverage brand campaign photographer
 Apply all of the following:
 - Camera realism: specify focal length (50mm, 85mm, 100mm macro), aperture (f/1.8, f/2.8), and depth of field — tighter apertures (f/2.8-f/4) keep the label sharp while softening the background
 - Brand specificity: the base prompt will name a real craft brand. Lean into its known visual character (Stone's gothic illustration style, Sierra Nevada's green and gold mountain logo, New Belgium's bicycle icon, Founders' dark premium aesthetic). Specify only the brand name and at most one product name — both large and isolated. CRITICAL: no decorative bands, no horizontal text strips, no info panels, no bottom strips on the can. Clean label design only — large text with ample space around it, nothing else. Any band or strip of secondary text will render as garbled noise. No small text anywhere on the label at any size — one or two words maximum, rendered as large as possible.
+- Bottom of can rule: explicitly state in the prompt that the lower third of every can is completely bare — no ABV, no volume, no barcode, no legal copy, no fine print, no ingredients. Clean metal or solid color only.
 - Override rule: if the base prompt describes a boardroom, office, conference table, cityscape, or any non-beverage scene, ignore it entirely and replace it with a tight craft beverage product shot. The output is always cans or bottles, never architecture or interiors.
 - Scale and framing: the cans or bottles must be large and close to the camera, filling most of the frame. If the base prompt has only one can or places the product small in an environmental scene, correct it — add more cans and bring them forward. Minimum 3 products in frame.
 - Environment: a simple surface as backdrop only — dark slate, raw oak, brushed concrete, a bar top — kept minimal so it doesn't compete with the products
@@ -188,7 +191,7 @@ export async function POST(request: Request) {
             image_request: {
               prompt: enhancedImagePrompt,
               negative_prompt:
-                'small text, fine print, secondary label text, ingredient list, information band, decorative text strip, multiple lines of text on label, fine print on bottle, side panel text, legal copy, small font, tiny writing, micro text, tiny font, multiple text sizes, crowded label, cluttered label, text heavy label, busy label, dense text on can, small print anywhere, illegible text, garbled text, background signage, chalkboard, menu board, price tag, wall text, poster text, banner text, watermark, people, humans, faces, figures, portraits',
+                'small text, fine print, secondary label text, ingredient list, information band, decorative text strip, multiple lines of text on label, fine print on bottle, side panel text, legal copy, small font, tiny writing, micro text, tiny font, multiple text sizes, crowded label, cluttered label, text heavy label, busy label, dense text on can, small print anywhere, illegible text, garbled text, text at bottom of can, bottom of can text, lower can text, abv text, alcohol percentage text, volume text, barcode, nutrition facts, legal disclaimer on can, ingredients list on can, background signage, chalkboard, menu board, price tag, wall text, poster text, banner text, watermark, people, humans, faces, figures, portraits',
               model: 'V_2',
               aspect_ratio: 'ASPECT_16_9',
               magic_prompt_option: 'OFF',
